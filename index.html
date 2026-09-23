@@ -1,0 +1,440 @@
+# this file is used to trail
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic UI Application</title>
+    <!-- Google Font for a clean, modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(145deg, #f6f9fc 0%, #e9f1f7 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            margin: 0;
+            line-height: 1.5;
+            color: #1e293b;
+        }
+
+        /* Main Card - Centered App Container */
+        .app-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+                        0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem 2rem 2.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .app-card:hover {
+            box-shadow: 0 30px 55px -10px rgba(0, 0, 0, 0.3),
+                        0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+        }
+
+        /* Header / Title Area */
+        .app-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .app-header h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #0f172a, #3b5b8c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+
+        .app-header .badge {
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            letter-spacing: 0.02em;
+            border: 1px solid #bae6fd;
+            white-space: nowrap;
+        }
+
+        /* Greeting Text */
+        .greeting-section {
+            background: #ffffff;
+            border-radius: 1.25rem;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.75rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02), 0 0 0 1px #eef2f6;
+            border: 1px solid #ffffff;
+        }
+
+        .greeting-section p {
+            font-size: 1.1rem;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .greeting-section .highlight {
+            font-weight: 700;
+            color: #0f3b7a;
+            background: #dbeafe;
+            padding: 0.2rem 0.7rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            display: inline-block;
+        }
+
+        /* Interactive Counter Component */
+        .counter-widget {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.75rem;
+            box-shadow: 0 8px 18px -6px rgba(0, 0, 0, 0.08), 0 0 0 1px #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .counter-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .counter-value {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #0b2b4f;
+            background: linear-gradient(135deg, #1e3a6f, #2d4f7c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0.25rem 0 1rem;
+            transition: transform 0.15s ease;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.02em;
+        }
+
+        .counter-value.pulse {
+            transform: scale(1.05);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        /* Buttons - Unified Design */
+        .btn {
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.7rem 1.6rem;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            background: #ffffff;
+            color: #1e293b;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03), 0 0 0 1px #cbd5e1;
+            flex: 0 1 auto;
+            letter-spacing: 0.01em;
+        }
+
+        .btn:hover {
+            background: #f8fafc;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06), 0 0 0 1px #94a3b8;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05), 0 0 0 1px #64748b;
+        }
+
+        .btn-primary {
+            background: #1e3a6f;
+            color: white;
+            box-shadow: 0 6px 14px -4px rgba(21, 57, 109, 0.3), 0 0 0 1px #1e3a6f;
+        }
+
+        .btn-primary:hover {
+            background: #15305c;
+            box-shadow: 0 10px 18px -6px rgba(21, 57, 109, 0.4), 0 0 0 1px #15305c;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #1e3a6f;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03), 0 0 0 1px #b9c9e0;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f6ff;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05), 0 0 0 1px #8aa2c2;
+        }
+
+        .btn-reset {
+            background: transparent;
+            color: #64748b;
+            box-shadow: 0 0 0 1px #cbd5e1;
+        }
+
+        .btn-reset:hover {
+            background: #f1f5f9;
+            color: #334155;
+            box-shadow: 0 0 0 1px #94a3b8;
+        }
+
+        /* Message / Feedback Area */
+        .message-area {
+            font-size: 0.95rem;
+            min-height: 2.5rem;
+            padding: 0.65rem 1rem;
+            background: #f1f5f9;
+            border-radius: 60px;
+            text-align: center;
+            color: #2c3e5c;
+            font-weight: 450;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            margin-top: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message-area.success {
+            background: #e6f7ec;
+            color: #0b4f2e;
+            border-color: #b3e0c5;
+        }
+
+        .message-area.warning {
+            background: #fff6e5;
+            color: #8a5a00;
+            border-color: #ffe0a3;
+        }
+
+        /* Small footer / info */
+        .app-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #8b9eb0;
+            letter-spacing: 0.02em;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            .app-card {
+                padding: 1.5rem 1.25rem 2rem;
+                border-radius: 1.5rem;
+            }
+
+            .app-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .counter-value {
+                font-size: 3.2rem;
+            }
+
+            .btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+
+            .greeting-section p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Accessibility focus styles */
+        .btn:focus-visible {
+            outline: 3px solid #3b82f6;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <main class="app-card" role="main">
+        <!-- Header -->
+        <div class="app-header">
+            <h1>Basic UI</h1>
+            <span class="badge">v1.0</span>
+        </div>
+
+        <!-- Greeting / Dynamic message based on time -->
+        <div class="greeting-section">
+            <p>
+                <span>👋 Hello,</span>
+                <span id="greetingText" class="highlight">friend</span>
+                <span>! Ready to interact?</span>
+            </p>
+        </div>
+
+        <!-- Interactive Counter Widget -->
+        <div class="counter-widget">
+            <div class="counter-label">Current count</div>
+            <div id="counterDisplay" class="counter-value">0</div>
+
+            <div class="button-group">
+                <button id="decrementBtn" class="btn btn-secondary" aria-label="Decrease count">
+                    <span>−</span> Decrease
+                </button>
+                <button id="incrementBtn" class="btn btn-primary" aria-label="Increase count">
+                    <span>+</span> Increase
+                </button>
+            </div>
+
+            <div style="margin-top: 1rem; width: 100%; display: flex; justify-content: center;">
+                <button id="resetBtn" class="btn btn-reset" aria-label="Reset count to zero">
+                    ↺ Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- Status / Message Area -->
+        <div id="messageBox" class="message-area" role="status" aria-live="polite">
+            Click a button to see updates.
+        </div>
+
+        <!-- Footer (subtle) -->
+        <div class="app-footer">
+            ⚡ Basic UI · simple & clean
+        </div>
+    </main>
+
+    <script>
+        (function() {
+            // --- DOM Elements ---
+            const counterDisplay = document.getElementById('counterDisplay');
+            const incrementBtn = document.getElementById('incrementBtn');
+            const decrementBtn = document.getElementById('decrementBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const messageBox = document.getElementById('messageBox');
+            const greetingText = document.getElementById('greetingText');
+
+            // --- State ---
+            let count = 0;
+
+            // --- Helper: update greeting based on time of day ---
+            function updateGreeting() {
+                const hour = new Date().getHours();
+                let greeting = 'friend';
+                if (hour < 12) greeting = 'morning';
+                else if (hour < 18) greeting = 'afternoon';
+                else greeting = 'evening';
+                greetingText.textContent = greeting;
+            }
+
+            // --- Helper: update counter UI and apply pulse effect ---
+            function updateCounterUI() {
+                counterDisplay.textContent = count;
+
+                // Brief pulse animation for visual feedback
+                counterDisplay.classList.add('pulse');
+                setTimeout(() => {
+                    counterDisplay.classList.remove('pulse');
+                }, 150);
+            }
+
+            // --- Helper: show temporary message (auto-clear after timeout) ---
+            let messageTimeout = null;
+            function showMessage(text, type = 'info') {
+                if (messageTimeout) clearTimeout(messageTimeout);
+
+                messageBox.textContent = text;
+                messageBox.classList.remove('success', 'warning');
+                if (type === 'success') messageBox.classList.add('success');
+                if (type === 'warning') messageBox.classList.add('warning');
+
+                // Auto revert to neutral info after 2.5 seconds (optional)
+                messageTimeout = setTimeout(() => {
+                    messageBox.textContent = 'Click a button to see updates.';
+                    messageBox.classList.remove('success', 'warning');
+                }, 2500);
+            }
+
+            // --- Increment handler ---
+            function handleIncrement() {
+                count += 1;
+                updateCounterUI();
+                showMessage(`Increased! Current count: ${count}`, 'success');
+            }
+
+            // --- Decrement handler ---
+            function handleDecrement() {
+                count -= 1;
+                updateCounterUI();
+                showMessage(`Decreased! Current count: ${count}`, 'warning');
+            }
+
+            // --- Reset handler ---
+            function handleReset() {
+                if (count === 0) {
+                    showMessage('Count is already zero.', 'info');
+                    return;
+                }
+                count = 0;
+                updateCounterUI();
+                showMessage('Counter reset to zero.', 'success');
+            }
+
+            // --- Attach event listeners ---
+            incrementBtn.addEventListener('click', handleIncrement);
+            decrementBtn.addEventListener('click', handleDecrement);
+            resetBtn.addEventListener('click', handleReset);
+
+            // --- Initial setup ---
+            updateGreeting();
+            updateCounterUI();   // displays 0, no pulse effect at start (could add but not needed)
+
+            // Remove pulse class if it was added during initial load (safe)
+            counterDisplay.classList.remove('pulse');
+
+            // Optional: update greeting every hour (minor nicety)
+            setInterval(updateGreeting, 3600000); // 1 hour
+        })();
+    </script>
+</body>
+</html>
