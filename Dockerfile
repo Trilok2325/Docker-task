@@ -3,3 +3,5 @@ EXPOSE 80
 MAINTAINER Triloksai
 LABEL this is image is used for small app
 COPY index.html .
+RUN touch sai
+RUN mkdir trilok
